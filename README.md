@@ -38,3 +38,9 @@ Then run it:
 node stats.js /path/to/yourConfig.js
 
 ```
+
+
+Test it by publishing a counter:
+```
+echo "foo:1|c" | nc -u -w0 127.0.0.1 8125
+```
