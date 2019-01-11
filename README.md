@@ -1,4 +1,4 @@
-# <span style="color:red">Doesn't work!!</span>
+# <span style="color:red">Basically working!!</span>
 
 
 Clone 
@@ -44,3 +44,6 @@ Test it by publishing a counter:
 ```
 echo "foo:1|c" | nc -u -w0 127.0.0.1 8125
 ```
+
+Observe counters created in Stackdriver either through the console or APIs Explorer (more to come)
+
