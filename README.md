@@ -1,11 +1,9 @@
 # <span style="color:red">Doesn't work!!</span>
 
 
-Clone etsy/statsd
-https://github.com/etsy/statsd
-
-Clone statsd-opencensus-backend
-https://github.com/DazWilkin/statsd-opencensus-backend/blob/master/README.md
+Clone 
+- [etsy/statsd](https://github.com/etsy/statsd)
+- [statsd-opencensus-backend](https://github.com/DazWilkin/statsd-opencensus-backend/blob/master/README.md)
 
 Create GCP Project (`[[YOUR-PROJECT]]`)
 
