@@ -1,4 +1,4 @@
-Doesn't work!!
+# <span style="color:red">Doesn't work!!</span>
 
 
 Clone etsy/statsd
@@ -16,10 +16,12 @@ Create service account w/ Stackdriver permissions (`roles/monitoring.metricWrite
 
 From within the etsy statsd directory:
 
-EXPORT GOOGLE_APPLICATION_CREDENTAILS = ${PWD}/key.json
+```bash
+EXPORT GOOGLE_APPLICATION_CREDENTIALS = ${PWD}/key.json
+````
 
 config.js
-```
+```json
 {
     flushInterval: 5000,
     backends: [
@@ -34,7 +36,7 @@ config.js
 ```
 
 Then run it:
-```
+```bash
 node stats.js /path/to/yourConfig.js
 
 ```
