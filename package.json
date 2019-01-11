@@ -1,0 +1,37 @@
+{
+    "name": "statsd-opencensus-backend",
+    "version": "0.0.1",
+    "description": "Send metric data from statsd through OpenCensus",
+    "main": "lib/opencensus.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/DazWilkin/statsd-opencensus-backend.git"
+    },
+    "keywords": [
+        "metrics",
+        "opencensus",
+        "statsd"
+    ],
+    "author": "Daz Wilkin <dazwilkin@google.com>",
+    "license": "Apache",
+    "readmeFilename": "README.md",
+    "gitHead": "",
+    "homepage": "https://opencensus.io",
+    "bugs": {
+        "url": "https://github.com/DazWilkin/statsd-opencensus-backend/issues"
+    },
+    "contributors": [
+        {
+            "name": "Daz Wilkin",
+            "email": "dazwilkin@google.com"
+        }
+    ],
+    "dependencies": {
+        "@opencensus/core": "0.0.8",
+        "@opencensus/exporter-stackdriver": "0.0.8",
+        "jshint": "^2.9.7"
+    }
+}
