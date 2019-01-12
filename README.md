@@ -1,7 +1,18 @@
-# <span style="color:red">Basically working!!</span>
+# stats-opencensus-backend
 
+## Motivation
 
-Clone 
+[OpenCensus](opencensus.io) is a compelling project. Customarily, monitoring (and trace) solutions require client applications to use a specific service's proprietary API. Once the client application is written, it's forever bound to a specific monitoring solution. But, that's not what's wanted. OpenCensus decouples metric production from consumption. You write monitoring (and trace) code once and then -- at production time !! -- your DevOps or SRE folks use whichever monitoring system they prefer.
+
+[Statsd](https://github.com/etsy/statsd) is a compelling project. It is a widely used mechanism for the lightweight (udp not tcp) shipping of metrics (counters, gauges and timers). The project currently supports multiple [backends](https://github.com/etsy/statsd/blob/master/docs/backend.md) too but it did not support OpenCensus.
+
+Stats+Opencensus means that *any* application currently shipping metrics using statsd can now be monitored (in principle) by any monitoring solution supported by Opencensus (by Node.JS... unfortunately, these remain langauge-dependent). Ironically, OpenCensus only supports Stackdriver and Prometheus (in Node.JS) today *but*, as more systems are added (as they will be), these will become immediately available to statsd applications.
+
+## Write-up
+
+[here](https://medium.com/google-cloud/statsd-opencensus-backend-33297c6a58b5)
+
+## Clone
 - [etsy/statsd](https://github.com/etsy/statsd)
 - [statsd-opencensus-backend](https://github.com/DazWilkin/statsd-opencensus-backend/blob/master/README.md)
 
@@ -9,11 +20,15 @@ Clone
 
 ## Enable Stackdriver
 
-Create GCP Project (`[[YOUR-PROJECT]]`)
+### Create GCP Project (`[[YOUR-PROJECT]]`) *and* enable billing
 
-Create Stackdriver Workspace
+As I learned, if you miss the "enable billing" step, you will not receive metrics data in Stackdriver
 
-Create service account w/ Stackdriver permissions (`roles/monitoring.metricWriter`) and download the key
+### Create Stackdriver Workspace
+
+### Create service account
+
+w/ Stackdriver permissions (`roles/monitoring.metricWriter`) and download the key
 
 From within the etsy statsd directory:
 
@@ -95,7 +110,7 @@ Test it by publishing a counter:
 ```
 echo "foo:1|c" | nc -u -w0 127.0.0.1 8125
 ```
-or many:
+...or many:
 ```bash
 while true
 do
@@ -107,7 +122,7 @@ done
 ```
 Observe counters created in Stackdriver either through the console or APIs Explorer (more to come)
 
-Test it by pushing a guage:
+Test it by pushing a gauge:
 ```
 echo "bar:3.14159|g" | nc -u -w0 127.0.0.1 8125
 ```
@@ -121,3 +136,10 @@ do
   sleep 1s
 done
 ```
+
+
+## Stackdriver
+
+![](stackdriver.foo.png)
+
+![](stackdriver.bar.png)
