@@ -6,7 +6,7 @@
 
 [Statsd](https://github.com/etsy/statsd) is a compelling project. It is a widely used mechanism for the lightweight (udp not tcp) shipping of metrics (counters, gauges and timers). The project currently supports multiple [backends](https://github.com/etsy/statsd/blob/master/docs/backend.md) too but it did not support OpenCensus.
 
-Stats+Opencensus means that *any* application currently shipping metrics using statsd can now be monitored (in principle) by any monitoring solution supported by Opencensus (by Node.JS... unfortunately, these remain langauge-dependent). Ironically, OpenCensus only supports Stackdriver and Prometheus (in Node.JS) today *but*, as more systems are added (as they will be), these will become immediately available to statsd applications.
+Stats+OpenCensus means that *any* application currently shipping metrics using statsd can now be monitored (in principle) by any monitoring solution supported by OpenCensus (by Node.JS... unfortunately, these remain langauge-dependent). Ironically, OpenCensus only supports Stackdriver and Prometheus (in Node.JS) today *but*, as more systems are added (as they will be), these will become immediately available to statsd applications.
 
 ## Write-up
 
