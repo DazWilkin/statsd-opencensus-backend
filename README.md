@@ -16,6 +16,7 @@ Stats+OpenCensus means that *any* application currently shipping metrics using s
 - [etsy/statsd](https://github.com/etsy/statsd)
 - [statsd-opencensus-backend](https://github.com/DazWilkin/statsd-opencensus-backend/blob/master/README.md)
 
+You'll need to `npm install` from within both directories.
 
 ## Enable Stackdriver (Optional)
 
