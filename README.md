@@ -103,7 +103,7 @@ config.js
         "[[PATH-TO]]/statsd-opencensus-backend"
     ],
     opencensus:{
-        promethues: {
+        prometheus: {
             port: [[YOUR-PORT]]
         }
     }
