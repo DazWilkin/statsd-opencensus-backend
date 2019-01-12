@@ -17,24 +17,62 @@ Stats+Opencensus means that *any* application currently shipping metrics using s
 - [statsd-opencensus-backend](https://github.com/DazWilkin/statsd-opencensus-backend/blob/master/README.md)
 
 
+## Enable Stackdriver (Optional)
 
-## Enable Stackdriver
-
-### Create GCP Project (`[[YOUR-PROJECT]]`) *and* enable billing
+### Create GCP Project *and* enable billing
 
 As I learned, if you miss the "enable billing" step, you will not receive metrics data in Stackdriver
 
+```bash
+PROJECT=[[YOUR-PROJECT]]
+BILLING=[[YOUR-BILLING]]
+
+gcloud projects create ${PROJECT}
+
+gcloud beta billing projects link ${PROJECT} \
+--billing-account=${BILLING}
+```
+
 ### Create Stackdriver Workspace
+
+Unfortunately, there's no accessible API nor CLI for this:
+
+```bash
+google-chrome console.cloud.google.com/monitoring/?project=${PROJECT}
+```
 
 ### Create service account
 
 w/ Stackdriver permissions (`roles/monitoring.metricWriter`) and download the key
 
+```bash
+ACCOUNT=[[YOUR-SERVICE-ACCOUNT]]
+ADDRESS=${ACCOUNT}@${PROJECT}.iam.gserviceaccount.com
+
+WORK=[[YOUR-WORKING-DIRECTORY]]
+FILE="${WORK}/${ACCOUNT}.key.json"
+
+gcloud iam service-accounts create ${ACCOUNT} \
+--display-name=${ACCOUNT} \
+--project=${PROJECT}
+
+gcloud projects add-iam-policy-binding ${PROJECT} \
+--member=serviceAccount:${ADDRESS} \
+--role=roles/monitoring.metricWriter
+
+gcloud iam service-accounts keys create ${FILE} \
+--iam-account=${ACCOUNT}@${PROJECT}.iam.gserviceaccount.com \
+--project=${PROJECT}
+```
+
+
+### Configure statsd for OpenCensus+Stackdriver
+
 From within the etsy statsd directory:
 
 ```bash
 EXPORT GOOGLE_APPLICATION_CREDENTIALS = ${PWD}/key.json
-````
+```
 
 config.js
 ```json
@@ -51,35 +89,11 @@ config.js
 }
 ```
 
-## Enable Prometheus
+### Configure statsd for OpenCensus+Prometheus
 
-Currently prometheus is enabled by default and exports on ::9464
+Currently prometheus is enabled by default and exports on `::9464`
 
-```
-# HELP statsd_bad_lines_seen None provided
-# TYPE statsd_bad_lines_seen counter
-statsd_bad_lines_seen{status="OK"} 40
-
-# HELP statsd_packets_received None provided
-# TYPE statsd_packets_received counter
-statsd_packets_received{status="OK"} 40
-
-# HELP statsd_metrics_received None provided
-# TYPE statsd_metrics_received counter
-statsd_metrics_received{status="OK"} 40
-
-# HELP foo None provided
-# TYPE foo counter
-foo{status="OK"} 40
-
-# HELP bar None provided
-# TYPE bar gauge
-bar{status="OK"} 1949.1418679999997
-
-# HELP statsd_timestamp_lag None provided
-# TYPE statsd_timestamp_lag gauge
-statsd_timestamp_lag{status="OK"} 38
-```
+From within the etsy statsd directory:
 
 config.js
 ```json
@@ -138,8 +152,43 @@ done
 ```
 
 
-## Stackdriver
+## Visualize
+
+### Stackdriver
 
 ![](stackdriver.foo.png)
 
 ![](stackdriver.bar.png)
+
+
+### Prometheus
+
+The statsd server hosts a Prometheus Metrics Exporter on the previously designated port (`::8464`).
+
+You may visualize the metrics data (and hit refresh to update) by browsing `localhost:8464`
+
+```
+# HELP statsd_bad_lines_seen None provided
+# TYPE statsd_bad_lines_seen counter
+statsd_bad_lines_seen{status="OK"} 40
+
+# HELP statsd_packets_received None provided
+# TYPE statsd_packets_received counter
+statsd_packets_received{status="OK"} 40
+
+# HELP statsd_metrics_received None provided
+# TYPE statsd_metrics_received counter
+statsd_metrics_received{status="OK"} 40
+
+# HELP foo None provided
+# TYPE foo counter
+foo{status="OK"} 40
+
+# HELP bar None provided
+# TYPE bar gauge
+bar{status="OK"} 1949.1418679999997
+
+# HELP statsd_timestamp_lag None provided
+# TYPE statsd_timestamp_lag gauge
+statsd_timestamp_lag{status="OK"} 38
+```
